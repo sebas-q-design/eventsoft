@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .evento-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .evento-card:hover {
+            transform: scale(1.02);
+        }
+        .evento-img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .titulo {
+            font-weight: 600;
+            color: #0d6efd;
+        }
+        .fecha {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <h1 class="text-center mb-4">Eventos Disponibles</h1>
+
+    {% if eventos %}
+        <div class="row g-4">
+            {% for evento in eventos %}
+            <div class="col-md-4">
+                <div class="card evento-card">
+                    {% if evento.imagen %}
+                        <img src="{{ evento.imagen.url }}" class="evento-img" alt="{{ evento.titulo }}">
+                    {% else %}
+                        <img src="{% static 'img/default-evento.jpg' %}" class="evento-img" alt="Imagen no disponible">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="titulo">{{ evento.titulo }}</h5>
+                        <p class="fecha">
+                            📅 {{ evento.fecha_inicio }} – {{ evento.fecha_fin }}<br>
+                            📍 {{ evento.lugar }}
+                        </p>
+                        <a href="#" class="btn btn-primary btn-sm">Ver más</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            No hay eventos registrados por el momento.
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
